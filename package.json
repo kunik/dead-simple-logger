@@ -1,0 +1,12 @@
+{
+  "name": "dead-simple-logger",
+  "version": "1.0.0",
+  "description": "Simplest Node.js logger that is writing to the output",
+  "main": "index.js",
+  "author": "Taras Kunch",
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kunik/dead-simple-logger.git"
+  }
+}
