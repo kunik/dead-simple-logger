@@ -3,17 +3,28 @@
 const util = require('util')
 
 class Logger {
-  constructor(namespace, level=1) {
-    this.namespace = namespace
-    this.level     = level
+  constructor(namespace, level=1, gcloudJson=false) {
+    this.namespace  = namespace
+    this.level      = level
+    this.outputJson(gcloudJson)
   }
 
   setLevel(level='DEBUG') {
     return this.level = Logger[`_${(level || 'DEBUG').toUpperCase()}`] || Logger._DEBUG
   }
 
+  outputJson(enable=true) {
+    this.gcloudJson = enable
+
+    if (this.gcloudJson) {
+      this._write = this._writeJson.bind(this)
+    } else {
+      this._write = this._writeString.bind(this)
+    }
+  }
+
   child(namespace) {
-    return new Logger(`${this.namespace}:${namespace}`, this.level)
+    return new Logger(`${this.namespace}:${namespace}`, this.level, this.gcloudJson)
   }
 
   trace(...args) {
@@ -57,8 +68,17 @@ class Logger {
     return (str && str.substring) ? `${str.substr(0, max_length)}...` : str
   }
 
-  _write(stream, args) {
-    return stream.write(`${new Date().toISOString()} ${this.namespace} ${format(args)}\n`)
+  _writeJson(stream, args) {
+    return stream.write(JSON.stringify({
+      message: `[ ${this.namespace} ] ${format(args)}`,
+      application: this.namespace,
+      severity: 'INFO',
+      timestamp: new Date().toISOString()
+    }) + "\n")
+  }
+
+  _writeString(stream, args) {
+    return stream.write(`${new Date().toISOString()} [ ${this.namespace} ] ${format(args)}\n`)
   }
 }
 
