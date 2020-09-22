@@ -61,7 +61,7 @@ class Logger {
         args = args.concat(endArgs)
 
         if (args[0] && args[0].timerLimit) {
-          let timerLimit = (args.shift()).timerLimit
+          let timerLimit = (args.pop()).timerLimit
           if (diff < timerLimit && this.level >= Logger._INFO) return
         } else if (this.level > Logger._INFO) {
           return
