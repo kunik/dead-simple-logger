@@ -1,6 +1,6 @@
 {
   "name": "dead-simple-logger",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Simplest Node.js logger that is writing to the output",
   "main": "index.js",
   "author": "Taras Kunch",
