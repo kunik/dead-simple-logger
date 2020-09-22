@@ -60,7 +60,7 @@ class Logger {
         let diff = (new Date) - startTime
         args = args.concat(endArgs)
 
-        if (args.length && args[length - 1].timerLimit) {
+        if (args.length && args[args.length - 1].timerLimit) {
           let timerLimit = (args.pop()).timerLimit
           if (diff < timerLimit && this.level >= Logger._INFO) return
         } else if (this.level > Logger._INFO) {
