@@ -57,8 +57,16 @@ class Logger {
 
     return {
       end: (...endArgs) => {
-        if (this.level > Logger._INFO) return
+        let diff = (new Date) - startTime
         args = args.concat(endArgs)
+
+        if (args[0] && args[0].timerLimit) {
+          let timerLimit = (args.shift()).timerLimit
+          if (diff < timerLimit) return
+        } else if (this.level > Logger._INFO) {
+          return
+        }
+
         this._write(process.stdout, ['%s [%dms]', format(args), (new Date) - startTime])
       }
     }
